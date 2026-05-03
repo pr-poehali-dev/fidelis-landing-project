@@ -48,7 +48,7 @@
   }
 }
 
-/* Gold gradient text */
+/* ── Gold text ─────────────────────────────────────── */
 .gold-text {
   background: linear-gradient(
     135deg,
@@ -62,7 +62,6 @@
   background-clip: text;
 }
 
-/* Gold shimmer text animation */
 .gold-shimmer-text {
   background: linear-gradient(
     90deg,
@@ -88,38 +87,149 @@
   }
 }
 
-/* Kanji watermarks */
-.kanji-bg::before {
-  content: "誠";
-  position: absolute;
-  font-size: 380px;
-  color: rgba(212, 168, 67, 0.028);
-  right: -40px;
-  top: -60px;
-  font-family: serif;
-  pointer-events: none;
-  user-select: none;
-  line-height: 1;
-  z-index: 0;
+/* ── Hero car cinematic animation ─────────────────── */
+.car-cinematic {
+  animation: car-drift 18s ease-in-out infinite alternate;
+  transform-origin: center center;
 }
 
-/* Divider */
+@keyframes car-drift {
+  0% {
+    transform: scale(1.08) translateX(0px) translateY(0px);
+  }
+  25% {
+    transform: scale(1.12) translateX(-18px) translateY(-6px);
+  }
+  50% {
+    transform: scale(1.1) translateX(-30px) translateY(-4px);
+  }
+  75% {
+    transform: scale(1.14) translateX(-50px) translateY(-10px);
+  }
+  100% {
+    transform: scale(1.18) translateX(-70px) translateY(-14px);
+  }
+}
+
+/* Cross-fade between two car images */
+.car-frame-1 {
+  animation: frame-crossfade 12s ease-in-out infinite;
+}
+.car-frame-2 {
+  animation: frame-crossfade 12s ease-in-out infinite reverse;
+  animation-delay: -6s;
+}
+
+@keyframes frame-crossfade {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  55%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ── Float ─────────────────────────────────────────── */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ── Fade animations ───────────────────────────────── */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Section wave dividers ─────────────────────────── */
+.section-wave-top {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.section-wave-bottom {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ── Section transition overlay ───────────────────── */
+.section-fade-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  pointer-events: none;
+  z-index: 2;
+}
+.section-fade-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── Scroll reveal ─────────────────────────────────── */
+.rv {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.rv.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Gold divider ──────────────────────────────────── */
 .gold-divider {
   height: 1px;
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(212, 168, 67, 0.6),
+    rgba(212, 168, 67, 0.55),
     transparent
   );
 }
 
-/* Button gold */
+/* ── Button gold ───────────────────────────────────── */
 .btn-gold {
   background: linear-gradient(135deg, #c49a35, #e8c96a, #b8882a);
   color: #080f1f;
-  font-family: "Oswald", sans-serif;
-  letter-spacing: 0.15em;
+  font-family: "Cinzel", serif;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   transition: all 0.35s ease;
   position: relative;
@@ -129,7 +239,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), transparent);
   opacity: 0;
   transition: opacity 0.35s;
 }
@@ -138,123 +248,56 @@
 }
 .btn-gold:hover {
   box-shadow:
-    0 0 35px rgba(212, 168, 67, 0.45),
-    0 4px 20px rgba(212, 168, 67, 0.3);
+    0 0 35px rgba(212, 168, 67, 0.42),
+    0 4px 20px rgba(212, 168, 67, 0.28);
   transform: translateY(-2px);
 }
 
-/* Service card */
+/* ── Service card ──────────────────────────────────── */
 .service-card {
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  background: rgba(13, 26, 48, 0.85);
-  border: 1px solid rgba(212, 168, 67, 0.15);
-  backdrop-filter: blur(8px);
+  transition: all 0.42s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  background: rgba(5, 12, 28, 0.85);
+  border: 1px solid rgba(212, 168, 67, 0.14);
+  backdrop-filter: blur(10px);
 }
 .service-card:hover {
-  transform: translateY(-10px);
-  border-color: rgba(212, 168, 67, 0.55);
+  transform: translateY(-9px);
+  border-color: rgba(212, 168, 67, 0.52);
   box-shadow:
-    0 25px 60px rgba(0, 0, 0, 0.5),
-    0 0 40px rgba(212, 168, 67, 0.08);
+    0 28px 65px rgba(0, 0, 0, 0.55),
+    0 0 40px rgba(212, 168, 67, 0.07);
 }
 
-/* Trust card */
+/* ── Trust card ────────────────────────────────────── */
 .trust-card {
-  background: rgba(8, 15, 31, 0.7);
-  border: 1px solid rgba(212, 168, 67, 0.12);
+  background: rgba(5, 12, 28, 0.65);
+  border: 1px solid rgba(212, 168, 67, 0.11);
   transition: all 0.3s ease;
 }
 .trust-card:hover {
-  border-color: rgba(212, 168, 67, 0.4);
-  background: rgba(13, 26, 48, 0.9);
+  border-color: rgba(212, 168, 67, 0.38);
+  background: rgba(10, 20, 45, 0.88);
 }
 
-/* Scroll reveal */
-.reveal {
-  opacity: 0;
-  transform: translateY(35px);
-  transition:
-    opacity 0.85s ease,
-    transform 0.85s ease;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.reveal-left {
-  opacity: 0;
-  transform: translateX(-35px);
-  transition:
-    opacity 0.85s ease,
-    transform 0.85s ease;
-}
-.reveal-left.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-.reveal-right {
-  opacity: 0;
-  transform: translateX(35px);
-  transition:
-    opacity 0.85s ease,
-    transform 0.85s ease;
-}
-.reveal-right.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* Delay helpers */
-.delay-100 {
-  transition-delay: 0.1s;
-}
-.delay-200 {
-  transition-delay: 0.2s;
-}
-.delay-300 {
-  transition-delay: 0.3s;
-}
-.delay-400 {
-  transition-delay: 0.4s;
-}
-.delay-500 {
-  transition-delay: 0.5s;
-}
-.delay-600 {
-  transition-delay: 0.6s;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #050d1a;
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(212, 168, 67, 0.35);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(212, 168, 67, 0.65);
-}
-
-/* Grid pattern */
+/* ── Grid pattern ──────────────────────────────────── */
 .grid-pattern {
   background-image:
-    linear-gradient(rgba(212, 168, 67, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(212, 168, 67, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(212, 168, 67, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 168, 67, 0.035) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
-/* FAQ accordion */
-.faq-item {
-  border: 1px solid rgba(212, 168, 67, 0.15);
-  transition: border-color 0.3s ease;
+/* ── Scrollbar ─────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
 }
-.faq-item:hover {
-  border-color: rgba(212, 168, 67, 0.35);
+::-webkit-scrollbar-track {
+  background: #020816;
 }
-.faq-item.open {
-  border-color: rgba(212, 168, 67, 0.45);
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 168, 67, 0.3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 168, 67, 0.6);
 }

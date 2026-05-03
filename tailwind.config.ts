@@ -19,10 +19,9 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				cormorant: ['Cormorant Garamond', 'serif'],
-				oswald: ['Oswald', 'sans-serif'],
+				cinzel: ['Cinzel', 'serif'],
+				playfair: ['Playfair Display', 'serif'],
 				ibm: ['IBM Plex Sans', 'sans-serif'],
-				montserrat: ['Montserrat', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
