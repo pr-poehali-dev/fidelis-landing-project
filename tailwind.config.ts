@@ -22,6 +22,7 @@ export default {
 				cormorant: ['Cormorant Garamond', 'serif'],
 				oswald: ['Oswald', 'sans-serif'],
 				ibm: ['IBM Plex Sans', 'sans-serif'],
+				montserrat: ['Montserrat', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
