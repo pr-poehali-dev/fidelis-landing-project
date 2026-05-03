@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import Icon from '@/components/ui/icon';
 
-const LOGO_URL  = 'https://cdn.poehali.dev/projects/f1f30175-ef7d-405a-be11-a40b5cfa5f35/bucket/5ced9890-3c4d-48ba-ae42-c7a6867bd130.jpg';
-const CAR_IMG_1 = 'https://cdn.poehali.dev/projects/f1f30175-ef7d-405a-be11-a40b5cfa5f35/files/7f2c8cf6-2b76-4015-9616-0046cf24a54f.jpg';
-const CAR_IMG_2 = 'https://cdn.poehali.dev/projects/f1f30175-ef7d-405a-be11-a40b5cfa5f35/files/4a16420b-b614-454a-bcf6-1954995a61ea.jpg';
+/* Новый логотип — белый фон убирается через mix-blend-mode: multiply */
+const LOGO_URL = 'https://cdn.poehali.dev/projects/f1f30175-ef7d-405a-be11-a40b5cfa5f35/bucket/b4e9297b-8bc5-4975-841c-c7a3ea70346c.png';
+
+/* Royalty-free видео японского авто (Pexels CDN, MP4) */
+const VIDEO_URL = 'https://videos.pexels.com/video-files/3696430/3696430-uhd_2560_1440_25fps.mp4';
+/* Фолбек-постер на случай если видео не загрузится */
+const CAR_POSTER = 'https://cdn.poehali.dev/projects/f1f30175-ef7d-405a-be11-a40b5cfa5f35/files/7f2c8cf6-2b76-4015-9616-0046cf24a54f.jpg';
 
 /* ─── Data ──────────────────────────────────────────── */
 const services = [
@@ -18,6 +22,13 @@ const stats = [
   { value: '98%',    label: 'Довольных клиентов' },
   { value: '40 мин', label: 'Видеоинспекция авто' },
   { value: '15 мин', label: 'Ответ менеджера' },
+];
+
+const countries = [
+  { flag: '🇯🇵', name: 'Япония' },
+  { flag: '🇰🇷', name: 'Корея' },
+  { flag: '🇨🇳', name: 'Китай' },
+  { flag: '🌍', name: 'Весь мир' },
 ];
 
 const trustItems = [
@@ -49,28 +60,19 @@ function useReveal() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('visible'); }),
-      { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.07, rootMargin: '0px 0px -40px 0px' }
     );
     document.querySelectorAll('.rv').forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 }
 
-/* ─── Wave divider component ────────────────────────── */
-function WaveDivider({ fromColor, toColor, flip = false }: { fromColor: string; toColor: string; flip?: boolean }) {
+/* ─── Smooth section divider ────────────────────────── */
+function Divider({ top = '#020816', bottom = '#020816' }: { top?: string; bottom?: string }) {
   return (
-    <div className={`relative w-full overflow-hidden leading-none ${flip ? 'rotate-180' : ''}`} style={{ height: '80px', marginBottom: flip ? undefined : '-1px', marginTop: flip ? '-1px' : undefined }}>
+    <div className="relative w-full overflow-hidden" style={{ height: 80, marginTop: -1, zIndex: 10, pointerEvents: 'none' }}>
       <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
-        <defs>
-          <linearGradient id={`wg-${fromColor.replace('#','')}`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={fromColor} />
-            <stop offset="100%" stopColor={toColor} />
-          </linearGradient>
-        </defs>
-        <path
-          d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z"
-          fill={toColor}
-        />
+        <path d="M0,0 L1440,0 L1440,30 C1080,80 360,80 0,30 Z" fill={bottom} />
       </svg>
     </div>
   );
@@ -93,6 +95,24 @@ function GoldIcon3D({ name }: { name: string }) {
   );
 }
 
+/* ─── Logo ──────────────────────────────────────────── */
+function Logo({ size = 40 }: { size?: number }) {
+  return (
+    <img
+      src={LOGO_URL}
+      alt="Fidelis"
+      style={{
+        width: size,
+        height: size,
+        objectFit: 'contain',
+        mixBlendMode: 'multiply',
+        /* Инвертируем чтобы белый → прозрачный на тёмном фоне */
+        filter: 'invert(1) sepia(1) saturate(3) hue-rotate(5deg) brightness(1.1)',
+      }}
+    />
+  );
+}
+
 /* ─── NavBar ────────────────────────────────────────── */
 function NavBar() {
   const [scrolled, setScrolled] = useState(false);
@@ -107,19 +127,13 @@ function NavBar() {
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'backdrop-blur-xl shadow-[0_2px_50px_rgba(0,0,0,0.8)]' : ''}`}
          style={{ background: scrolled ? 'rgba(2,8,22,0.95)' : 'transparent' }}>
       <div className="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between">
-        {/* Logo */}
         <div className="flex items-center gap-3">
-          <div className="relative w-11 h-11 overflow-hidden rounded-sm flex items-center justify-center"
-               style={{ background: 'transparent' }}>
-            <img src={LOGO_URL} alt="Fidelis"
-                 className="w-11 h-11 object-contain"
-                 style={{ mixBlendMode: 'screen', filter: 'brightness(1.2) saturate(1.1)' }} />
-          </div>
+          <Logo size={42} />
           <div>
-            <div style={{ fontFamily: "'Cinzel', serif", fontWeight: 700, fontSize: '16px', letterSpacing: '0.12em', color: '#d4a843', lineHeight: 1 }}>
+            <div style={{ fontFamily: "'Cinzel', serif", fontWeight: 700, fontSize: '16px', letterSpacing: '0.14em', color: '#d4a843', lineHeight: 1 }}>
               FIDELIS
             </div>
-            <div className="font-ibm text-[9px] tracking-[0.22em] mt-0.5 uppercase" style={{ color: 'rgba(212,168,67,0.55)' }}>
+            <div className="font-ibm text-[9px] tracking-[0.22em] mt-0.5 uppercase" style={{ color: 'rgba(212,168,67,0.5)' }}>
               Import Solutions
             </div>
           </div>
@@ -129,9 +143,9 @@ function NavBar() {
           {['Услуги', 'Доверие', 'FAQ', 'Контакты'].map((l) => (
             <a key={l} href={`#${l.toLowerCase()}`}
                className="font-ibm text-xs tracking-[0.18em] uppercase transition-colors duration-300"
-               style={{ color: 'rgba(245,223,160,0.55)' }}
+               style={{ color: 'rgba(245,223,160,0.52)' }}
                onMouseEnter={e => ((e.target as HTMLElement).style.color = '#d4a843')}
-               onMouseLeave={e => ((e.target as HTMLElement).style.color = 'rgba(245,223,160,0.55)')}>
+               onMouseLeave={e => ((e.target as HTMLElement).style.color = 'rgba(245,223,160,0.52)')}>
               {l}
             </a>
           ))}
@@ -159,73 +173,66 @@ function NavBar() {
 
 /* ─── Hero ──────────────────────────────────────────── */
 function Hero() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 0.75;
+    }
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden" style={{ background: '#020816' }}>
-      {/* Cinematic car background — two frames cross-fading + drifting */}
+
+      {/* ── Видео-фон ── */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Frame 1 */}
-        <div className="car-frame-1 absolute inset-0">
-          <div className="car-cinematic absolute inset-[-8%]">
-            <img src={CAR_IMG_1} alt="" className="w-full h-full object-cover object-center"
-                 style={{ filter: 'saturate(0.7) brightness(0.55)', transform: 'scale(1)' }} />
-          </div>
-        </div>
-        {/* Frame 2 */}
-        <div className="car-frame-2 absolute inset-0">
-          <div className="absolute inset-[-8%]"
-               style={{ animation: 'car-drift 18s ease-in-out infinite alternate-reverse' }}>
-            <img src={CAR_IMG_2} alt="" className="w-full h-full object-cover object-right-center"
-                 style={{ filter: 'saturate(0.7) brightness(0.5)' }} />
-          </div>
-        </div>
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={CAR_POSTER}
+          className="absolute w-full h-full object-cover object-center"
+          style={{ filter: 'saturate(0.65) brightness(0.5)' }}
+        >
+          <source src={VIDEO_URL} type="video/mp4" />
+          {/* Фолбек если видео не поддерживается */}
+          <img src={CAR_POSTER} alt="" className="w-full h-full object-cover" />
+        </video>
 
-        {/* Deep blue tints */}
+        {/* Цветовые оверлеи */}
         <div className="absolute inset-0"
-             style={{ background: 'linear-gradient(105deg,#020816 30%,rgba(2,8,22,0.62) 60%,rgba(2,8,22,0.18) 100%)' }} />
+             style={{ background: 'linear-gradient(110deg,#020816 28%,rgba(2,8,22,0.65) 58%,rgba(2,8,22,0.15) 100%)' }} />
         <div className="absolute inset-0"
-             style={{ background: 'linear-gradient(to top,#020816 0%,rgba(2,8,22,0.5) 30%,transparent 60%)' }} />
+             style={{ background: 'linear-gradient(to top,#020816 0%,rgba(2,8,22,0.55) 28%,transparent 55%)' }} />
         <div className="absolute inset-0"
-             style={{ background: 'linear-gradient(to bottom,rgba(2,8,22,0.8) 0%,transparent 20%)' }} />
+             style={{ background: 'linear-gradient(to bottom,rgba(2,8,22,0.85) 0%,transparent 18%)' }} />
         {/* Deep blue color grade */}
-        <div className="absolute inset-0"
-             style={{ background: 'rgba(2,6,20,0.28)', mixBlendMode: 'multiply' }} />
-      </div>
-
-      {/* Subtle speed lines */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-10">
-        {[15,35,55,70,82].map((top, i) => (
-          <div key={i} className="absolute h-px"
-               style={{
-                 top: `${top}%`,
-                 left: 0,
-                 right: 0,
-                 background: `linear-gradient(90deg,transparent,rgba(212,168,67,${0.3 + i * 0.1}),transparent)`,
-                 animation: `car-drift ${6 + i * 2}s ease-in-out ${i * 0.8}s infinite alternate`,
-               }} />
-        ))}
+        <div className="absolute inset-0" style={{ background: 'rgba(1,4,16,0.22)' }} />
       </div>
 
       {/* Gold particle dots */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(12)].map((_, i) => (
+        {[...Array(10)].map((_, i) => (
           <div key={i} className="absolute rounded-full"
                style={{
-                 width: i % 3 === 0 ? '2px' : '1px',
-                 height: i % 3 === 0 ? '2px' : '1px',
+                 width: '1px', height: '1px',
                  left: `${(i * 43 + 9) % 100}%`,
                  top: `${(i * 61 + 15) % 100}%`,
                  background: '#d4a843',
-                 opacity: 0.08 + (i % 4) * 0.05,
+                 opacity: 0.06 + (i % 4) * 0.04,
                  animation: `float ${4 + (i % 3)}s ease-in-out ${i * 0.4}s infinite`,
                }} />
         ))}
       </div>
 
-      {/* Content */}
+      {/* ── Контент ── */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 pt-28 pb-20 w-full">
         <div className="max-w-2xl">
+
           <div className="flex items-center gap-4 mb-7 animate-[fade-in_1s_ease_0.2s_both]">
-            <div className="h-px w-10 bg-gold-500" />
+            <div className="h-px w-10" style={{ background: '#d4a843' }} />
             <span className="font-ibm text-[11px] tracking-[0.42em] uppercase" style={{ color: '#d4a843' }}>
               Premium Auto Import
             </span>
@@ -247,6 +254,17 @@ function Hero() {
             Япония, Корея, Китай и по запросу — весь мировой авторынок.
           </p>
 
+          {/* Страны — встроены в контент под описанием */}
+          <div className="flex items-center gap-3 mb-10 flex-wrap animate-[fade-up_1s_ease_0.7s_both]">
+            {countries.map((c) => (
+              <div key={c.name} className="flex items-center gap-1.5 px-3 py-1.5 backdrop-blur-sm"
+                   style={{ border: '1px solid rgba(212,168,67,0.18)', background: 'rgba(2,8,22,0.45)' }}>
+                <span className="text-sm">{c.flag}</span>
+                <span className="font-ibm text-[11px] tracking-[0.12em]" style={{ color: 'rgba(245,223,160,0.62)' }}>{c.name}</span>
+              </div>
+            ))}
+          </div>
+
           <div className="flex flex-col sm:flex-row gap-4 animate-[fade-up_1s_ease_0.8s_both]">
             <button className="btn-gold px-10 py-4 text-sm flex items-center gap-3 group">
               <span>Подобрать автомобиль</span>
@@ -260,6 +278,7 @@ function Hero() {
             </button>
           </div>
 
+          {/* Stats */}
           <div className="mt-14 pt-8 grid grid-cols-2 md:grid-cols-4 gap-6 animate-[fade-up_1s_ease_1s_both]"
                style={{ borderTop: '1px solid rgba(212,168,67,0.1)' }}>
             {stats.map((s) => (
@@ -273,25 +292,35 @@ function Hero() {
         </div>
       </div>
 
-      {/* Country badges */}
-      <div className="absolute bottom-16 right-6 md:right-12 flex flex-col gap-2 z-10 animate-[fade-in_1s_ease_1.2s_both]">
-        {['🇯🇵 Япония', '🇰🇷 Корея', '🇨🇳 Китай', '🌍 По запросу'].map((c) => (
-          <span key={c} className="font-ibm text-[11px] text-right px-3 py-1.5 backdrop-blur-sm"
-                style={{ color: 'rgba(245,223,160,0.48)', border: '1px solid rgba(212,168,67,0.16)', background: 'rgba(2,8,22,0.4)' }}>
-            {c}
-          </span>
-        ))}
-      </div>
-
-      {/* Scroll */}
+      {/* Scroll indicator */}
       <div className="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10 animate-[fade-in_1s_ease_1.8s_both]">
         <span className="font-ibm text-[9px] tracking-[0.42em] uppercase" style={{ color: 'rgba(212,168,67,0.3)' }}>Scroll</span>
         <div className="w-px h-10" style={{ background: 'linear-gradient(to bottom,rgba(212,168,67,0.3),transparent)' }} />
       </div>
 
-      {/* Bottom wave to next section */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 z-10"
-           style={{ background: 'linear-gradient(to top, #020816 0%, rgba(2,8,22,0.85) 50%, transparent 100%)' }} />
+      {/* Плавный переход вниз */}
+      <div className="absolute bottom-0 left-0 right-0 z-10" style={{ height: 140, background: 'linear-gradient(to top,#020816 0%,rgba(2,8,22,0.9) 50%,transparent 100%)' }} />
+    </section>
+  );
+}
+
+/* ─── Section wrapper with unified bg blending ─────── */
+function Section({ id, children, bgTop = '#020816', bgBottom = '#020816', hasDividerTop = false, hasDividerBottom = false }:
+  { id?: string; children: React.ReactNode; bgTop?: string; bgBottom?: string; hasDividerTop?: boolean; hasDividerBottom?: boolean }) {
+  return (
+    <section id={id} className="relative overflow-hidden"
+             style={{ background: `linear-gradient(180deg,${bgTop} 0%,${bgBottom} 100%)` }}>
+      {/* Top seamless blend */}
+      <div className="absolute top-0 left-0 right-0 z-10 pointer-events-none"
+           style={{ height: 80, background: `linear-gradient(to bottom,${bgTop} 0%,transparent 100%)` }} />
+
+      <div className="relative z-20">
+        {children}
+      </div>
+
+      {/* Bottom seamless blend */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 pointer-events-none"
+           style={{ height: 100, background: `linear-gradient(to top,${bgBottom} 0%,transparent 100%)` }} />
     </section>
   );
 }
@@ -299,16 +328,12 @@ function Hero() {
 /* ─── Services ──────────────────────────────────────── */
 function Services() {
   return (
-    <section id="услуги" className="relative py-24 md:py-28" style={{ background: 'linear-gradient(180deg,#020816 0%,#030b1c 100%)' }}>
-      {/* Top soft fade from hero */}
-      <div className="section-fade-top"
-           style={{ background: 'linear-gradient(to bottom,#020816 0%,transparent 100%)' }} />
-
+    <Section id="услуги" bgTop="#020816" bgBottom="#030b1c">
       {/* Radial ambient */}
       <div className="absolute inset-0 pointer-events-none"
            style={{ background: 'radial-gradient(ellipse 70% 50% at 50% 0%,rgba(212,168,67,0.04),transparent)' }} />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
+      <div className="py-28 max-w-7xl mx-auto px-6">
         <div className="text-center mb-14">
           <div className="flex items-center justify-center gap-4 mb-5 rv">
             <div className="h-px w-10" style={{ background: '#d4a843' }} />
@@ -335,11 +360,7 @@ function Services() {
           ))}
         </div>
       </div>
-
-      {/* Bottom fade to process */}
-      <div className="section-fade-bottom"
-           style={{ background: 'linear-gradient(to top,#030b1c 0%,transparent 100%)' }} />
-    </section>
+    </Section>
   );
 }
 
@@ -355,15 +376,12 @@ function Process() {
   ];
 
   return (
-    <section className="relative py-24 overflow-hidden"
-             style={{ background: 'linear-gradient(180deg,#030b1c 0%,#020d20 50%,#020816 100%)' }}>
-      <div className="absolute inset-0 grid-pattern" />
-
-      {/* Ambient glow */}
+    <Section bgTop="#030b1c" bgBottom="#020e22">
+      <div className="absolute inset-0 grid-pattern" style={{ opacity: 0.4 }} />
       <div className="absolute inset-0 pointer-events-none"
            style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 100%,rgba(212,168,67,0.03),transparent)' }} />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
+      <div className="py-24 max-w-7xl mx-auto px-6">
         <div className="text-center mb-14">
           <div className="flex items-center justify-center gap-4 mb-5 rv">
             <div className="h-px w-10" style={{ background: '#d4a843' }} />
@@ -396,7 +414,7 @@ function Process() {
           ))}
         </div>
       </div>
-    </section>
+    </Section>
   );
 }
 
@@ -409,17 +427,11 @@ function Trust() {
   }, []);
 
   return (
-    <section id="доверие" className="relative py-24 md:py-32 overflow-hidden"
-             style={{ background: 'linear-gradient(180deg,#020816 0%,#030c1e 60%,#020816 100%)' }}>
-      {/* Top soft blend */}
-      <div className="section-fade-top"
-           style={{ background: 'linear-gradient(to bottom,#020816 0%,transparent 100%)' }} />
-
-      {/* Ambient radial */}
+    <Section id="доверие" bgTop="#020e22" bgBottom="#020816">
       <div className="absolute inset-0 pointer-events-none"
-           style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 50%,rgba(212,168,67,0.03),transparent)' }} />
+           style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 50%,rgba(212,168,67,0.025),transparent)' }} />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
+      <div className="py-28 max-w-7xl mx-auto px-6">
         <div className="text-center mb-14">
           <div className="flex items-center justify-center gap-4 mb-5 rv">
             <div className="h-px w-10" style={{ background: '#d4a843' }} />
@@ -451,13 +463,13 @@ function Trust() {
           ))}
         </div>
 
-        {/* Reviews carousel */}
+        {/* Reviews */}
         <div className="mt-16 rv">
           <div className="relative overflow-hidden p-8 md:p-12 text-center"
                style={{ border: '1px solid rgba(212,168,67,0.15)', background: 'rgba(2,10,24,0.8)', backdropFilter: 'blur(12px)' }}>
-            <div className="absolute top-4 left-8 text-8xl leading-none select-none pointer-events-none"
+            <div className="absolute top-4 left-8 text-8xl leading-none select-none"
                  style={{ fontFamily: 'serif', color: 'rgba(212,168,67,0.08)' }}>"</div>
-            <div className="absolute bottom-0 right-8 text-8xl leading-none rotate-180 select-none pointer-events-none"
+            <div className="absolute bottom-0 right-8 text-8xl leading-none rotate-180 select-none"
                  style={{ fontFamily: 'serif', color: 'rgba(212,168,67,0.08)' }}>"</div>
 
             <div key={reviewIdx} className="animate-[fade-up_0.5s_ease_both]">
@@ -490,21 +502,17 @@ function Trust() {
           </div>
         </div>
       </div>
-
-      <div className="section-fade-bottom"
-           style={{ background: 'linear-gradient(to top,#020816 0%,transparent 100%)' }} />
-    </section>
+    </Section>
   );
 }
 
 /* ─── FAQ Item ──────────────────────────────────────── */
 function FaqItem({ question, answer, index }: { question: string; answer: string; index: number }) {
   const [open, setOpen] = useState(false);
-
   return (
     <div style={{
-      border: `1px solid ${open ? 'rgba(212,168,67,0.4)' : 'rgba(212,168,67,0.13)'}`,
-      background: open ? 'rgba(3,12,30,0.9)' : 'rgba(2,8,22,0.6)',
+      border: `1px solid ${open ? 'rgba(212,168,67,0.4)' : 'rgba(212,168,67,0.12)'}`,
+      background: open ? 'rgba(3,12,30,0.9)' : 'rgba(2,8,22,0.55)',
       backdropFilter: 'blur(8px)',
       transition: 'border-color 0.3s ease, background 0.3s ease',
     }}>
@@ -523,11 +531,9 @@ function FaqItem({ question, answer, index }: { question: string; answer: string
           <Icon name="ChevronDown" size={16} className="text-gold-500/55" />
         </div>
       </button>
-
       <div style={{ maxHeight: open ? '500px' : '0', overflow: 'hidden', transition: 'max-height 0.42s cubic-bezier(0.4,0,0.2,1)' }}>
         <div className="px-6 pb-6 ml-10">
-          <div className="h-px mb-4"
-               style={{ background: 'linear-gradient(90deg,transparent,rgba(212,168,67,0.38),transparent)' }} />
+          <div className="h-px mb-4" style={{ background: 'linear-gradient(90deg,transparent,rgba(212,168,67,0.38),transparent)' }} />
           <p className="font-ibm text-sm leading-relaxed" style={{ color: 'rgba(245,223,160,0.5)' }}>{answer}</p>
         </div>
       </div>
@@ -537,13 +543,10 @@ function FaqItem({ question, answer, index }: { question: string; answer: string
 
 function FAQ() {
   return (
-    <section id="faq" className="relative py-24 md:py-32 overflow-hidden"
-             style={{ background: 'linear-gradient(180deg,#020816 0%,#030b1c 50%,#020816 100%)' }}>
-      <div className="absolute inset-0 grid-pattern" />
-      <div className="section-fade-top"
-           style={{ background: 'linear-gradient(to bottom,#020816 0%,transparent 100%)' }} />
+    <Section id="faq" bgTop="#020816" bgBottom="#030b1c">
+      <div className="absolute inset-0 grid-pattern" style={{ opacity: 0.35 }} />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6">
+      <div className="py-28 max-w-4xl mx-auto px-6">
         <div className="text-center mb-14">
           <div className="flex items-center justify-center gap-4 mb-5 rv">
             <div className="h-px w-10" style={{ background: '#d4a843' }} />
@@ -561,27 +564,23 @@ function FAQ() {
           ))}
         </div>
       </div>
-
-      <div className="section-fade-bottom"
-           style={{ background: 'linear-gradient(to top,#020816 0%,transparent 100%)' }} />
-    </section>
+    </Section>
   );
 }
 
 /* ─── CTA ───────────────────────────────────────────── */
 function CTA() {
   return (
-    <section id="контакты" className="relative py-24 md:py-32 overflow-hidden"
-             style={{ background: 'linear-gradient(180deg,#020816 0%,#030d22 50%,#020816 100%)' }}>
-      <div className="absolute inset-0 grid-pattern" />
+    <Section id="контакты" bgTop="#030b1c" bgBottom="#020816">
+      <div className="absolute inset-0 grid-pattern" style={{ opacity: 0.35 }} />
       <div className="absolute inset-0 pointer-events-none"
-           style={{ background: 'radial-gradient(ellipse 65% 65% at 50% 50%,rgba(212,168,67,0.055),transparent)' }} />
+           style={{ background: 'radial-gradient(ellipse 65% 65% at 50% 50%,rgba(212,168,67,0.05),transparent)' }} />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] rounded-full pointer-events-none"
            style={{ border: '1px solid rgba(212,168,67,0.05)' }} />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full pointer-events-none"
            style={{ border: '1px solid rgba(212,168,67,0.08)' }} />
 
-      <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
+      <div className="py-28 max-w-3xl mx-auto px-6 text-center">
         <div className="flex items-center justify-center gap-4 mb-8 rv">
           <div className="h-px w-10" style={{ background: '#d4a843' }} />
           <span className="font-ibm text-[11px] tracking-[0.38em] uppercase" style={{ color: '#d4a843' }}>Начать сотрудничество</span>
@@ -626,7 +625,7 @@ function CTA() {
           ))}
         </div>
       </div>
-    </section>
+    </Section>
   );
 }
 
@@ -636,11 +635,10 @@ function Footer() {
     <footer className="py-10" style={{ background: '#020816', borderTop: '1px solid rgba(212,168,67,0.1)' }}>
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <img src={LOGO_URL} alt="Fidelis" className="w-9 h-9 object-contain"
-               style={{ mixBlendMode: 'screen', filter: 'brightness(1.15) saturate(1.1)' }} />
+          <Logo size={36} />
           <div>
-            <span style={{ fontFamily: "'Cinzel', serif", fontWeight: 700, fontSize: '13px', letterSpacing: '0.12em', color: 'rgba(212,168,67,0.68)' }}>FIDELIS</span>
-            <span className="font-ibm text-[10px] tracking-widest ml-2" style={{ color: 'rgba(212,168,67,0.4)' }}>Import Solutions</span>
+            <span style={{ fontFamily: "'Cinzel', serif", fontWeight: 700, fontSize: '13px', letterSpacing: '0.14em', color: 'rgba(212,168,67,0.68)' }}>FIDELIS</span>
+            <span className="font-ibm text-[10px] tracking-widest ml-2" style={{ color: 'rgba(212,168,67,0.38)' }}>Import Solutions</span>
           </div>
         </div>
         <div className="font-ibm text-xs tracking-wide" style={{ color: 'rgba(245,223,160,0.18)' }}>© 2025 Fidelis Import Solutions. Все права защищены.</div>
