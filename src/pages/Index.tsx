@@ -103,11 +103,12 @@ function GoldIcon3D({ name }: { name: string }) {
 }
 
 /* ─── Logo ──────────────────────────────────────────── */
-function Logo({ size = 40 }: { size?: number }) {
+function Logo({ size = 40, className = '' }: { size?: number; className?: string }) {
   return (
     <img
       src={LOGO_URL}
       alt="Fidelis"
+      className={className}
       style={{
         width: size,
         height: size,
@@ -133,14 +134,15 @@ function NavBar({ onOpenForm }: { onOpenForm: () => void }) {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'backdrop-blur-xl shadow-[0_2px_50px_rgba(0,0,0,0.8)]' : ''}`}
          style={{ background: scrolled ? 'rgba(2,8,22,0.95)' : 'transparent' }}>
-      <div className="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Logo size={42} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-3.5 flex items-center justify-between">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Logo size={34} />
           <div>
-            <div style={{ fontFamily: "'Cinzel', serif", fontWeight: 700, fontSize: '16px', letterSpacing: '0.14em', color: '#d4a843', lineHeight: 1 }}>
+            <div style={{ fontFamily: "'Cinzel', serif", fontWeight: 700, fontSize: '14px', letterSpacing: '0.12em', color: '#d4a843', lineHeight: 1 }}
+                 className="sm:text-[16px] sm:tracking-[0.14em]">
               FIDELIS
             </div>
-            <div className="font-ibm text-[9px] tracking-[0.22em] mt-0.5 uppercase" style={{ color: 'rgba(212,168,67,0.5)' }}>
+            <div className="font-ibm text-[7.5px] sm:text-[9px] tracking-[0.18em] sm:tracking-[0.22em] mt-0.5 uppercase" style={{ color: 'rgba(212,168,67,0.5)' }}>
               Import Solutions
             </div>
           </div>
@@ -241,58 +243,58 @@ function Hero({ onOpenForm }: { onOpenForm: () => void }) {
       </div>
 
       {/* ── Контент ── */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-28 pb-20 w-full">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-24 sm:pt-28 pb-16 sm:pb-20 w-full">
         <div className="max-w-2xl">
 
-          <div className="flex items-center gap-4 mb-7 animate-[fade-in_1s_ease_0.2s_both]">
-            <div className="h-px w-10" style={{ background: '#d4a843' }} />
-            <span className="font-ibm text-[11px] tracking-[0.42em] uppercase" style={{ color: '#d4a843' }}>
+          <div className="flex items-center gap-3 sm:gap-4 mb-5 sm:mb-7 animate-[fade-in_1s_ease_0.2s_both]">
+            <div className="h-px w-8 sm:w-10" style={{ background: '#d4a843' }} />
+            <span className="font-ibm text-[9px] sm:text-[11px] tracking-[0.3em] sm:tracking-[0.42em] uppercase" style={{ color: '#d4a843' }}>
               Premium Auto Import
             </span>
           </div>
 
-          <h1 className="leading-[1.04] mb-6 animate-[fade-up_1s_ease_0.4s_both]"
+          <h1 className="leading-[1.08] sm:leading-[1.04] mb-4 sm:mb-6 animate-[fade-up_1s_ease_0.4s_both]"
               style={{ fontFamily: "'Playfair Display', serif", fontWeight: 900 }}>
-            <span className="block text-5xl md:text-6xl xl:text-7xl" style={{ color: 'rgba(255,255,255,0.95)' }}>
+            <span className="block text-4xl sm:text-5xl md:text-6xl xl:text-7xl" style={{ color: 'rgba(255,255,255,0.95)' }}>
               Ваш автомобиль
             </span>
-            <span className="block text-5xl md:text-6xl xl:text-7xl gold-shimmer-text mt-1">
+            <span className="block text-4xl sm:text-5xl md:text-6xl xl:text-7xl gold-shimmer-text mt-1">
               из любой точки мира
             </span>
           </h1>
 
-          <p className="font-ibm text-base leading-relaxed max-w-lg mb-10 animate-[fade-up_1s_ease_0.6s_both]"
+          <p className="font-ibm text-sm sm:text-base leading-relaxed max-w-lg mb-6 sm:mb-10 animate-[fade-up_1s_ease_0.6s_both]"
              style={{ color: 'rgba(245,223,160,0.5)' }}>
             Поиск, доставка, растаможивание и гарантия качества — полный цикл под ключ.
             Япония, Корея, Китай и по запросу — весь мировой авторынок.
           </p>
 
           {/* Страны — встроены в контент под описанием */}
-          <div className="flex items-center gap-3 mb-10 flex-wrap animate-[fade-up_1s_ease_0.7s_both]">
+          <div className="flex items-center gap-2 sm:gap-3 mb-6 sm:mb-10 flex-wrap animate-[fade-up_1s_ease_0.7s_both]">
             {countries.map((c) => (
-              <div key={c.name} className="flex items-center gap-1.5 px-3 py-1.5 backdrop-blur-sm"
+              <div key={c.name} className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 backdrop-blur-sm"
                    style={{ border: '1px solid rgba(212,168,67,0.18)', background: 'rgba(2,8,22,0.45)' }}>
                 <span className="text-sm">{c.flag}</span>
-                <span className="font-ibm text-[11px] tracking-[0.12em]" style={{ color: 'rgba(245,223,160,0.62)' }}>{c.name}</span>
+                <span className="font-ibm text-[10px] sm:text-[11px] tracking-[0.12em]" style={{ color: 'rgba(245,223,160,0.62)' }}>{c.name}</span>
               </div>
             ))}
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 animate-[fade-up_1s_ease_0.8s_both]">
-            <button className="btn-gold px-10 py-4 text-sm flex items-center gap-3 group" onClick={onOpenForm}>
+            <button className="btn-gold px-8 sm:px-10 py-3.5 sm:py-4 text-sm flex items-center justify-center gap-3 group w-full sm:w-auto" onClick={onOpenForm}>
               <span>Подобрать автомобиль</span>
               <Icon name="ArrowRight" size={16} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
 
           {/* Stats */}
-          <div className="mt-14 pt-8 grid grid-cols-2 md:grid-cols-4 gap-6 animate-[fade-up_1s_ease_1s_both]"
+          <div className="mt-10 sm:mt-14 pt-6 sm:pt-8 grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-6 animate-[fade-up_1s_ease_1s_both]"
                style={{ borderTop: '1px solid rgba(212,168,67,0.1)' }}>
             {stats.map((s) => (
               <div key={s.label}>
                 <div className="gold-text leading-none mb-1.5"
-                     style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.85rem', fontWeight: 700 }}>{s.value}</div>
-                <div className="font-ibm text-[11px] tracking-wide leading-snug" style={{ color: 'rgba(245,223,160,0.36)' }}>{s.label}</div>
+                     style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.4rem,4vw,1.85rem)', fontWeight: 700 }}>{s.value}</div>
+                <div className="font-ibm text-[10px] sm:text-[11px] tracking-wide leading-snug" style={{ color: 'rgba(245,223,160,0.36)' }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -300,7 +302,7 @@ function Hero({ onOpenForm }: { onOpenForm: () => void }) {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10 animate-[fade-in_1s_ease_1.8s_both]">
+      <div className="hidden sm:flex absolute bottom-7 left-1/2 -translate-x-1/2 flex-col items-center gap-2 z-10 animate-[fade-in_1s_ease_1.8s_both]">
         <span className="font-ibm text-[9px] tracking-[0.42em] uppercase" style={{ color: 'rgba(212,168,67,0.3)' }}>Scroll</span>
         <div className="w-px h-10" style={{ background: 'linear-gradient(to bottom,rgba(212,168,67,0.3),transparent)' }} />
       </div>
@@ -328,23 +330,23 @@ function Services() {
       <div className="absolute inset-0 pointer-events-none"
            style={{ background: 'radial-gradient(ellipse 70% 50% at 50% 0%,rgba(212,168,67,0.04),transparent)' }} />
 
-      <div className="py-28 max-w-7xl mx-auto px-6">
-        <div className="text-center mb-14">
-          <div className="flex items-center justify-center gap-4 mb-5 rv">
-            <div className="h-px w-10" style={{ background: '#d4a843' }} />
-            <span className="font-ibm text-[11px] tracking-[0.38em] uppercase" style={{ color: '#d4a843' }}>Наши услуги</span>
-            <div className="h-px w-10" style={{ background: '#d4a843' }} />
+      <div className="py-16 sm:py-24 md:py-28 max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-10 sm:mb-14">
+          <div className="flex items-center justify-center gap-3 sm:gap-4 mb-4 sm:mb-5 rv">
+            <div className="h-px w-8 sm:w-10" style={{ background: '#d4a843' }} />
+            <span className="font-ibm text-[9px] sm:text-[11px] tracking-[0.3em] sm:tracking-[0.38em] uppercase" style={{ color: '#d4a843' }}>Наши услуги</span>
+            <div className="h-px w-8 sm:w-10" style={{ background: '#d4a843' }} />
           </div>
-          <h2 className="rv" style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(2rem,5vw,3.5rem)', fontWeight: 700, color: 'rgba(255,255,255,0.92)' }}>
+          <h2 className="rv" style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.75rem,6vw,3.5rem)', fontWeight: 700, color: 'rgba(255,255,255,0.92)' }}>
             Полный цикл <span className="gold-text">под ключ</span>
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {services.map((s, i) => (
-            <div key={s.title} className="service-card relative overflow-hidden p-8 group rv"
+            <div key={s.title} className="service-card relative overflow-hidden p-6 sm:p-8 group rv"
                  style={{ transitionDelay: `${i * 0.1}s` }}>
-              <div className="mb-6"><GoldIcon3D name={s.icon} /></div>
+              <div className="mb-5 sm:mb-6"><GoldIcon3D name={s.icon} /></div>
               <h3 className="font-ibm font-bold text-sm text-white/90 uppercase tracking-wider mb-3">{s.title}</h3>
               <p className="font-ibm text-sm leading-relaxed" style={{ color: 'rgba(245,223,160,0.42)' }}>{s.desc}</p>
               <div className="absolute -inset-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
@@ -375,27 +377,27 @@ function Process() {
       <div className="absolute inset-0 pointer-events-none"
            style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 100%,rgba(212,168,67,0.03),transparent)' }} />
 
-      <div className="py-24 max-w-7xl mx-auto px-6">
-        <div className="text-center mb-14">
-          <div className="flex items-center justify-center gap-4 mb-5 rv">
-            <div className="h-px w-10" style={{ background: '#d4a843' }} />
-            <span className="font-ibm text-[11px] tracking-[0.38em] uppercase" style={{ color: '#d4a843' }}>Как мы работаем</span>
-            <div className="h-px w-10" style={{ background: '#d4a843' }} />
+      <div className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-10 sm:mb-14">
+          <div className="flex items-center justify-center gap-3 sm:gap-4 mb-4 sm:mb-5 rv">
+            <div className="h-px w-8 sm:w-10" style={{ background: '#d4a843' }} />
+            <span className="font-ibm text-[9px] sm:text-[11px] tracking-[0.3em] sm:tracking-[0.38em] uppercase" style={{ color: '#d4a843' }}>Как мы работаем</span>
+            <div className="h-px w-8 sm:w-10" style={{ background: '#d4a843' }} />
           </div>
-          <h2 className="rv" style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(2rem,5vw,3.5rem)', fontWeight: 700, color: 'rgba(255,255,255,0.92)' }}>
+          <h2 className="rv" style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.75rem,6vw,3.5rem)', fontWeight: 700, color: 'rgba(255,255,255,0.92)' }}>
             6 шагов до <span className="gold-text">вашего авто</span>
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {steps.map((s, i) => (
-            <div key={s.n} className="rv relative p-7 group transition-all duration-400 backdrop-blur-sm"
+            <div key={s.n} className="rv relative p-5 sm:p-7 group transition-all duration-400 backdrop-blur-sm"
                  style={{ border: '1px solid rgba(212,168,67,0.1)', background: 'rgba(2,10,24,0.7)', transitionDelay: `${(i % 3) * 0.1}s` }}
                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(212,168,67,0.32)')}
                  onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(212,168,67,0.1)')}>
-              <div className="flex items-start gap-4">
+              <div className="flex items-start gap-3 sm:gap-4">
                 <div className="gold-text leading-none flex-shrink-0 mt-0.5 opacity-28 group-hover:opacity-58 transition-opacity"
-                     style={{ fontFamily: "'Playfair Display', serif", fontSize: '2.5rem', fontWeight: 700 }}>{s.n}</div>
+                     style={{ fontFamily: "'Playfair Display', serif", fontSize: '2rem', fontWeight: 700 }}>{s.n}</div>
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <Icon name={s.icon} fallback="Star" size={13} className="text-gold-500/55" />
@@ -425,26 +427,26 @@ function Trust() {
       <div className="absolute inset-0 pointer-events-none"
            style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 50%,rgba(212,168,67,0.025),transparent)' }} />
 
-      <div className="py-28 max-w-7xl mx-auto px-6">
-        <div className="text-center mb-14">
-          <div className="flex items-center justify-center gap-4 mb-5 rv">
-            <div className="h-px w-10" style={{ background: '#d4a843' }} />
-            <span className="font-ibm text-[11px] tracking-[0.38em] uppercase" style={{ color: '#d4a843' }}>Почему выбирают нас</span>
-            <div className="h-px w-10" style={{ background: '#d4a843' }} />
+      <div className="py-16 sm:py-24 md:py-28 max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-10 sm:mb-14">
+          <div className="flex items-center justify-center gap-3 sm:gap-4 mb-4 sm:mb-5 rv">
+            <div className="h-px w-8 sm:w-10" style={{ background: '#d4a843' }} />
+            <span className="font-ibm text-[9px] sm:text-[11px] tracking-[0.3em] sm:tracking-[0.38em] uppercase" style={{ color: '#d4a843' }}>Почему выбирают нас</span>
+            <div className="h-px w-8 sm:w-10" style={{ background: '#d4a843' }} />
           </div>
-          <h2 className="rv" style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(2rem,5vw,3.5rem)', fontWeight: 700, color: 'rgba(255,255,255,0.92)' }}>
+          <h2 className="rv" style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.75rem,6vw,3.5rem)', fontWeight: 700, color: 'rgba(255,255,255,0.92)' }}>
             Работаем на <span className="gold-text">доверии</span>
           </h2>
-          <p className="font-ibm text-sm mt-4 max-w-lg mx-auto rv" style={{ color: 'rgba(245,223,160,0.38)' }}>
+          <p className="font-ibm text-sm mt-4 max-w-lg mx-auto rv px-2" style={{ color: 'rgba(245,223,160,0.38)' }}>
             Fidelis — в переводе с латыни «верный». Это не просто название — это принцип каждой сделки.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {trustItems.map((t, i) => (
-            <div key={t.title} className="trust-card p-7 group rv" style={{ transitionDelay: `${(i % 3) * 0.1}s` }}>
-              <div className="flex items-start gap-4">
-                <div className="w-11 h-11 flex items-center justify-center flex-shrink-0 transition-colors duration-300"
+            <div key={t.title} className="trust-card p-5 sm:p-7 group rv" style={{ transitionDelay: `${(i % 3) * 0.1}s` }}>
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center flex-shrink-0 transition-colors duration-300"
                      style={{ border: '1px solid rgba(212,168,67,0.2)' }}>
                   <Icon name={t.icon} fallback="Star" size={18} className="text-gold-400" />
                 </div>
@@ -458,25 +460,25 @@ function Trust() {
         </div>
 
         {/* Reviews */}
-        <div className="mt-16 rv">
-          <div className="relative overflow-hidden p-8 md:p-12 text-center"
+        <div className="mt-10 sm:mt-16 rv">
+          <div className="relative overflow-hidden p-6 sm:p-8 md:p-12 text-center"
                style={{ border: '1px solid rgba(212,168,67,0.15)', background: 'rgba(2,10,24,0.8)', backdropFilter: 'blur(12px)' }}>
-            <div className="absolute top-4 left-8 text-8xl leading-none select-none"
+            <div className="hidden sm:block absolute top-4 left-8 text-8xl leading-none select-none"
                  style={{ fontFamily: 'serif', color: 'rgba(212,168,67,0.08)' }}>"</div>
-            <div className="absolute bottom-0 right-8 text-8xl leading-none rotate-180 select-none"
+            <div className="hidden sm:block absolute bottom-0 right-8 text-8xl leading-none rotate-180 select-none"
                  style={{ fontFamily: 'serif', color: 'rgba(212,168,67,0.08)' }}>"</div>
 
             <div key={reviewIdx} className="animate-[fade-up_0.5s_ease_both]">
-              <p className="text-xl md:text-2xl italic leading-relaxed max-w-2xl mx-auto"
+              <p className="text-base sm:text-xl md:text-2xl italic leading-relaxed max-w-2xl mx-auto"
                  style={{ fontFamily: "'Playfair Display', serif", color: 'rgba(255,255,255,0.72)' }}>
                 {reviews[reviewIdx].text}
               </p>
-              <div className="mt-6 flex items-center justify-center gap-3">
-                <div className="h-px w-8" style={{ background: 'rgba(212,168,67,0.35)' }} />
-                <span className="font-ibm text-xs tracking-[0.25em] uppercase" style={{ color: '#d4a843' }}>
+              <div className="mt-5 sm:mt-6 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+                <div className="h-px w-6 sm:w-8" style={{ background: 'rgba(212,168,67,0.35)' }} />
+                <span className="font-ibm text-[10px] sm:text-xs tracking-[0.2em] sm:tracking-[0.25em] uppercase" style={{ color: '#d4a843' }}>
                   {reviews[reviewIdx].author}, {reviews[reviewIdx].city}
                 </span>
-                <div className="h-px w-8" style={{ background: 'rgba(212,168,67,0.35)' }} />
+                <div className="h-px w-6 sm:w-8" style={{ background: 'rgba(212,168,67,0.35)' }} />
               </div>
               <div className="font-ibm text-xs mt-1 tracking-wide" style={{ color: 'rgba(245,223,160,0.28)' }}>{reviews[reviewIdx].car}</div>
               <div className="flex justify-center gap-1 mt-3">
@@ -486,7 +488,7 @@ function Trust() {
               </div>
             </div>
 
-            <div className="flex justify-center gap-2 mt-8">
+            <div className="flex justify-center gap-2 mt-6 sm:mt-8">
               {reviews.map((_, i) => (
                 <button key={i} onClick={() => setReviewIdx(i)}
                         className="transition-all duration-300 rounded-full"
@@ -510,13 +512,13 @@ function FaqItem({ question, answer, index }: { question: string; answer: string
       backdropFilter: 'blur(8px)',
       transition: 'border-color 0.3s ease, background 0.3s ease',
     }}>
-      <button className="w-full flex items-start gap-4 p-6 text-left group"
+      <button className="w-full flex items-start gap-3 sm:gap-4 p-4 sm:p-6 text-left group"
               onClick={() => setOpen((v) => !v)}>
         <span className="gold-text flex-shrink-0 mt-0.5 font-bold"
-              style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.1rem' }}>
+              style={{ fontFamily: "'Playfair Display', serif", fontSize: '1rem' }}>
           {String(index + 1).padStart(2, '0')}
         </span>
-        <span className="font-ibm text-sm font-medium tracking-wide flex-1 transition-colors uppercase"
+        <span className="font-ibm text-xs sm:text-sm font-medium tracking-wide flex-1 transition-colors uppercase"
               style={{ color: open ? '#e8c96a' : 'rgba(255,255,255,0.78)' }}>
           {question}
         </span>
@@ -526,7 +528,7 @@ function FaqItem({ question, answer, index }: { question: string; answer: string
         </div>
       </button>
       <div style={{ maxHeight: open ? '500px' : '0', overflow: 'hidden', transition: 'max-height 0.42s cubic-bezier(0.4,0,0.2,1)' }}>
-        <div className="px-6 pb-6 ml-10">
+        <div className="px-4 sm:px-6 pb-4 sm:pb-6 ml-7 sm:ml-10">
           <div className="h-px mb-4" style={{ background: 'linear-gradient(90deg,transparent,rgba(212,168,67,0.38),transparent)' }} />
           <p className="font-ibm text-sm leading-relaxed" style={{ color: 'rgba(245,223,160,0.5)' }}>{answer}</p>
         </div>
@@ -539,14 +541,14 @@ function FAQ() {
   return (
     <Section id="faq">
 
-      <div className="py-28 max-w-4xl mx-auto px-6">
-        <div className="text-center mb-14">
-          <div className="flex items-center justify-center gap-4 mb-5 rv">
-            <div className="h-px w-10" style={{ background: '#d4a843' }} />
-            <span className="font-ibm text-[11px] tracking-[0.38em] uppercase" style={{ color: '#d4a843' }}>FAQ</span>
-            <div className="h-px w-10" style={{ background: '#d4a843' }} />
+      <div className="py-16 sm:py-24 md:py-28 max-w-4xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-10 sm:mb-14">
+          <div className="flex items-center justify-center gap-3 sm:gap-4 mb-4 sm:mb-5 rv">
+            <div className="h-px w-8 sm:w-10" style={{ background: '#d4a843' }} />
+            <span className="font-ibm text-[9px] sm:text-[11px] tracking-[0.3em] sm:tracking-[0.38em] uppercase" style={{ color: '#d4a843' }}>FAQ</span>
+            <div className="h-px w-8 sm:w-10" style={{ background: '#d4a843' }} />
           </div>
-          <h2 className="rv" style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(2rem,5vw,3.5rem)', fontWeight: 700, color: 'rgba(255,255,255,0.92)' }}>
+          <h2 className="rv" style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.75rem,6vw,3.5rem)', fontWeight: 700, color: 'rgba(255,255,255,0.92)' }}>
             Частые <span className="gold-text">вопросы</span>
           </h2>
         </div>
@@ -572,31 +574,31 @@ function CTA({ onOpenForm }: { onOpenForm: () => void }) {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full pointer-events-none"
            style={{ border: '1px solid rgba(212,168,67,0.08)' }} />
 
-      <div className="py-28 max-w-3xl mx-auto px-6 text-center">
-        <div className="flex items-center justify-center gap-4 mb-8 rv">
-          <div className="h-px w-10" style={{ background: '#d4a843' }} />
-          <span className="font-ibm text-[11px] tracking-[0.38em] uppercase" style={{ color: '#d4a843' }}>Начать сотрудничество</span>
-          <div className="h-px w-10" style={{ background: '#d4a843' }} />
+      <div className="py-16 sm:py-24 md:py-28 max-w-3xl mx-auto px-4 sm:px-6 text-center">
+        <div className="flex items-center justify-center gap-3 sm:gap-4 mb-6 sm:mb-8 rv">
+          <div className="h-px w-8 sm:w-10" style={{ background: '#d4a843' }} />
+          <span className="font-ibm text-[9px] sm:text-[11px] tracking-[0.3em] sm:tracking-[0.38em] uppercase" style={{ color: '#d4a843' }}>Начать сотрудничество</span>
+          <div className="h-px w-8 sm:w-10" style={{ background: '#d4a843' }} />
         </div>
 
-        <h2 className="leading-tight mb-6 rv"
-            style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(2.2rem,6vw,4.5rem)', fontWeight: 900, color: 'rgba(255,255,255,0.92)' }}>
+        <h2 className="leading-tight mb-4 sm:mb-6 rv"
+            style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.9rem,8vw,4.5rem)', fontWeight: 900, color: 'rgba(255,255,255,0.92)' }}>
           Готовы найти<br /><span className="gold-shimmer-text">ваш автомобиль?</span>
         </h2>
 
-        <p className="font-ibm text-sm leading-relaxed max-w-xl mx-auto mb-10 rv"
+        <p className="font-ibm text-sm leading-relaxed max-w-xl mx-auto mb-8 sm:mb-10 rv px-2"
            style={{ color: 'rgba(245,223,160,0.44)' }}>
           Оставьте заявку — менеджер свяжется с вами в течение 15 минут и ответит на все вопросы. Первая консультация бесплатна.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-14 rv">
-          <button className="btn-gold px-12 py-4 text-sm flex items-center justify-center gap-3 group" onClick={onOpenForm}>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10 sm:mb-14 rv">
+          <button className="btn-gold px-8 sm:px-12 py-3.5 sm:py-4 text-sm flex items-center justify-center gap-3 group w-full sm:w-auto" onClick={onOpenForm}>
             <Icon name="Phone" size={16} />
             <span>Заказать звонок</span>
           </button>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-10 rv"
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 pt-8 sm:pt-10 rv"
              style={{ borderTop: '1px solid rgba(212,168,67,0.1)' }}>
           {[
             { icon: 'Phone',    text: '+7 (911) 193-89-03' },
@@ -617,17 +619,16 @@ function CTA({ onOpenForm }: { onOpenForm: () => void }) {
 /* ─── Footer ────────────────────────────────────────── */
 function Footer() {
   return (
-    <footer className="py-10" style={{ background: '#020816', borderTop: '1px solid rgba(212,168,67,0.1)' }}>
-      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+    <footer className="py-8 sm:py-10" style={{ background: '#020816', borderTop: '1px solid rgba(212,168,67,0.1)' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-4">
         <div className="flex items-center gap-3">
-          <Logo size={36} />
+          <Logo size={32} />
           <div>
             <span style={{ fontFamily: "'Cinzel', serif", fontWeight: 700, fontSize: '13px', letterSpacing: '0.14em', color: 'rgba(212,168,67,0.68)' }}>FIDELIS</span>
             <span className="font-ibm text-[10px] tracking-widest ml-2" style={{ color: 'rgba(212,168,67,0.38)' }}>Import Solutions</span>
           </div>
         </div>
-        <div className="font-ibm text-xs tracking-wide" style={{ color: 'rgba(245,223,160,0.18)' }}>© 2025 Fidelis Import Solutions. Все права защищены.</div>
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-5 order-3 md:order-2">
           {['Услуги', 'FAQ', 'Контакты'].map((l) => (
             <a key={l} href={`#${l.toLowerCase()}`}
                className="font-ibm text-[10px] tracking-[0.18em] uppercase transition-colors"
@@ -638,6 +639,7 @@ function Footer() {
             </a>
           ))}
         </div>
+        <div className="font-ibm text-[11px] sm:text-xs tracking-wide text-center order-2 md:order-3" style={{ color: 'rgba(245,223,160,0.18)' }}>© 2025 Fidelis Import Solutions. Все права защищены.</div>
       </div>
     </footer>
   );
@@ -701,25 +703,26 @@ function LeadFormDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="border-0 p-0 overflow-hidden max-w-md"
+        className="border-0 p-0 overflow-hidden max-w-md w-[calc(100%-2rem)] sm:w-full rounded-lg max-h-[90vh] overflow-y-auto"
         style={{ background: '#050d1f' }}
       >
-        <div className="p-8" style={{ borderTop: '3px solid #d4a843' }}>
-          <DialogHeader className="mb-6">
-            <DialogTitle style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.5rem', color: 'rgba(255,255,255,0.95)' }}>
+        <div className="p-5 sm:p-8" style={{ borderTop: '3px solid #d4a843' }}>
+          <DialogHeader className="mb-5 sm:mb-6">
+            <DialogTitle style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.3rem', color: 'rgba(255,255,255,0.95)' }}
+                         className="sm:text-[1.5rem]">
               Подобрать <span className="gold-text">автомобиль</span>
             </DialogTitle>
-            <DialogDescription className="font-ibm text-sm" style={{ color: 'rgba(245,223,160,0.45)' }}>
+            <DialogDescription className="font-ibm text-xs sm:text-sm" style={{ color: 'rgba(245,223,160,0.45)' }}>
               Оставьте контакты — менеджер свяжется с вами в течение 15 минут
             </DialogDescription>
           </DialogHeader>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4 sm:gap-5">
             <div className="flex flex-col gap-2">
               <Label htmlFor="lead-name" className="font-ibm text-xs tracking-wide uppercase" style={{ color: 'rgba(245,223,160,0.55)' }}>Имя</Label>
               <Input id="lead-name" value={name} onChange={(e) => setName(e.target.value)}
                      placeholder="Иван Иванов"
-                     className="bg-transparent font-ibm"
+                     className="bg-transparent font-ibm text-base sm:text-sm"
                      style={{ borderColor: 'rgba(212,168,67,0.25)', color: 'rgba(255,255,255,0.9)' }} />
             </div>
 
@@ -727,7 +730,7 @@ function LeadFormDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (
               <Label htmlFor="lead-phone" className="font-ibm text-xs tracking-wide uppercase" style={{ color: 'rgba(245,223,160,0.55)' }}>Телефон</Label>
               <Input id="lead-phone" value={phone} onChange={(e) => setPhone(e.target.value)} type="tel"
                      placeholder="+7 (___) ___-__-__"
-                     className="bg-transparent font-ibm"
+                     className="bg-transparent font-ibm text-base sm:text-sm"
                      style={{ borderColor: 'rgba(212,168,67,0.25)', color: 'rgba(255,255,255,0.9)' }} />
             </div>
 
@@ -735,20 +738,20 @@ function LeadFormDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (
               <Label htmlFor="lead-budget" className="font-ibm text-xs tracking-wide uppercase" style={{ color: 'rgba(245,223,160,0.55)' }}>Примерный бюджет</Label>
               <Input id="lead-budget" value={budget} onChange={(e) => setBudget(e.target.value)}
                      placeholder="например, 3–4 млн ₽"
-                     className="bg-transparent font-ibm"
+                     className="bg-transparent font-ibm text-base sm:text-sm"
                      style={{ borderColor: 'rgba(212,168,67,0.25)', color: 'rgba(255,255,255,0.9)' }} />
             </div>
 
             <div className="flex items-start gap-3 mt-1">
               <Checkbox id="lead-consent" checked={consent} onCheckedChange={(v) => setConsent(v === true)}
-                        className="mt-0.5"
+                        className="mt-0.5 flex-shrink-0"
                         style={{ borderColor: 'rgba(212,168,67,0.4)' }} />
               <Label htmlFor="lead-consent" className="font-ibm text-xs leading-relaxed cursor-pointer" style={{ color: 'rgba(245,223,160,0.5)' }}>
                 Я согласен на обработку персональных данных в соответствии с политикой конфиденциальности
               </Label>
             </div>
 
-            <button type="submit" disabled={submitting} className="btn-gold px-8 py-4 text-sm mt-2 disabled:opacity-60">
+            <button type="submit" disabled={submitting} className="btn-gold px-8 py-3.5 sm:py-4 text-sm mt-2 disabled:opacity-60">
               {submitting ? 'Отправка...' : 'Отправить заявку'}
             </button>
           </form>
