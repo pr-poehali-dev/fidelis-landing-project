@@ -283,12 +283,6 @@ function Hero({ onOpenForm }: { onOpenForm: () => void }) {
               <span>Подобрать автомобиль</span>
               <Icon name="ArrowRight" size={16} className="group-hover:translate-x-1 transition-transform" />
             </button>
-            <button className="font-ibm text-xs tracking-[0.18em] uppercase px-10 py-4 transition-all duration-300"
-                    style={{ border: '1px solid rgba(212,168,67,0.3)', color: '#e8c96a' }}
-                    onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor='rgba(212,168,67,0.65)'; el.style.background='rgba(212,168,67,0.05)'; }}
-                    onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor='rgba(212,168,67,0.3)'; el.style.background='transparent'; }}>
-              Рассчитать стоимость
-            </button>
           </div>
 
           {/* Stats */}
@@ -596,16 +590,8 @@ function CTA({ onOpenForm }: { onOpenForm: () => void }) {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-14 rv">
-          <button className="btn-gold px-12 py-4 text-sm flex items-center justify-center gap-3 group">
-            <Icon name="MessageCircle" size={16} />
-            <span>Написать в WhatsApp</span>
-          </button>
-          <button className="font-ibm text-xs tracking-[0.18em] uppercase px-10 py-4 transition-all duration-300 flex items-center justify-center gap-2"
-                  style={{ border: '1px solid rgba(212,168,67,0.3)', color: '#e8c96a' }}
-                  onClick={onOpenForm}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor='rgba(212,168,67,0.62)'; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor='rgba(212,168,67,0.3)'; }}>
-            <Icon name="Phone" size={14} />
+          <button className="btn-gold px-12 py-4 text-sm flex items-center justify-center gap-3 group" onClick={onOpenForm}>
+            <Icon name="Phone" size={16} />
             <span>Заказать звонок</span>
           </button>
         </div>
@@ -613,7 +599,7 @@ function CTA({ onOpenForm }: { onOpenForm: () => void }) {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-10 rv"
              style={{ borderTop: '1px solid rgba(212,168,67,0.1)' }}>
           {[
-            { icon: 'Mail',     text: 'info@fidelis-import.com' },
+            { icon: 'Phone',    text: '+7 (911) 193-89-03' },
             { icon: 'Clock',    text: 'Ответ за 15 минут' },
             { icon: 'FileText', text: 'Работа по договору' },
           ].map((item) => (
