@@ -1,13 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
 import Icon from '@/components/ui/icon';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
+import { useToast } from '@/components/ui/use-toast';
 
 /* Новый логотип — белый фон убирается через mix-blend-mode: multiply */
 const LOGO_URL = 'https://cdn.poehali.dev/projects/f1f30175-ef7d-405a-be11-a40b5cfa5f35/bucket/b4e9297b-8bc5-4975-841c-c7a3ea70346c.png';
 
-/* Royalty-free видео японского авто (Pexels CDN, MP4) */
-const VIDEO_URL = 'https://videos.pexels.com/video-files/3696430/3696430-uhd_2560_1440_25fps.mp4';
+/* Собственное видео клиента — японское авто, передняя часть в кадре */
+const VIDEO_URL = 'https://cdn.poehali.dev/projects/f1f30175-ef7d-405a-be11-a40b5cfa5f35/bucket/63e6a697-482e-451c-8a01-19d0bb1daadc.mp4';
 /* Фолбек-постер на случай если видео не загрузится */
 const CAR_POSTER = 'https://cdn.poehali.dev/projects/f1f30175-ef7d-405a-be11-a40b5cfa5f35/files/7f2c8cf6-2b76-4015-9616-0046cf24a54f.jpg';
+/* URL backend-функции приёма заявок */
+const SUBMIT_LEAD_URL = 'https://functions.poehali.dev/de472bb6-ca47-4710-813f-4055a99c73d6';
 
 /* ─── Data ──────────────────────────────────────────── */
 const services = [
@@ -114,7 +121,7 @@ function Logo({ size = 40 }: { size?: number }) {
 }
 
 /* ─── NavBar ────────────────────────────────────────── */
-function NavBar() {
+function NavBar({ onOpenForm }: { onOpenForm: () => void }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -149,7 +156,7 @@ function NavBar() {
               {l}
             </a>
           ))}
-          <button className="btn-gold px-6 py-2.5 text-xs tracking-widest">Получить расчёт</button>
+          <button className="btn-gold px-6 py-2.5 text-xs tracking-widest" onClick={onOpenForm}>Получить расчёт</button>
         </div>
 
         <button className="md:hidden text-gold-400" onClick={() => setOpen(!open)}>
@@ -164,7 +171,7 @@ function NavBar() {
             <a key={l} href={`#${l.toLowerCase()}`} onClick={() => setOpen(false)}
                className="font-ibm text-sm tracking-[0.2em] uppercase" style={{ color: 'rgba(245,223,160,0.65)' }}>{l}</a>
           ))}
-          <button className="btn-gold px-5 py-3 text-xs tracking-widest w-full">Получить расчёт</button>
+          <button className="btn-gold px-5 py-3 text-xs tracking-widest w-full" onClick={() => { setOpen(false); onOpenForm(); }}>Получить расчёт</button>
         </div>
       )}
     </nav>
@@ -172,13 +179,20 @@ function NavBar() {
 }
 
 /* ─── Hero ──────────────────────────────────────────── */
-function Hero() {
+function Hero({ onOpenForm }: { onOpenForm: () => void }) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.playbackRate = 0.75;
-    }
+    const v = videoRef.current;
+    if (!v) return;
+    const tryPlay = () => { v.play().catch(() => {}); };
+    tryPlay();
+    v.addEventListener('loadedmetadata', tryPlay);
+    document.addEventListener('click', tryPlay, { once: true });
+    return () => {
+      v.removeEventListener('loadedmetadata', tryPlay);
+      document.removeEventListener('click', tryPlay);
+    };
   }, []);
 
   return (
@@ -192,24 +206,23 @@ function Hero() {
           muted
           loop
           playsInline
+          preload="auto"
           poster={CAR_POSTER}
           className="absolute w-full h-full object-cover object-center"
-          style={{ filter: 'saturate(0.65) brightness(0.5)' }}
+          style={{ filter: 'saturate(0.7) brightness(0.55)' }}
         >
           <source src={VIDEO_URL} type="video/mp4" />
-          {/* Фолбек если видео не поддерживается */}
-          <img src={CAR_POSTER} alt="" className="w-full h-full object-cover" />
         </video>
 
         {/* Цветовые оверлеи */}
         <div className="absolute inset-0"
-             style={{ background: 'linear-gradient(110deg,#020816 28%,rgba(2,8,22,0.65) 58%,rgba(2,8,22,0.15) 100%)' }} />
+             style={{ background: 'linear-gradient(110deg,#020816 22%,rgba(2,8,22,0.6) 55%,rgba(2,8,22,0.12) 100%)' }} />
         <div className="absolute inset-0"
-             style={{ background: 'linear-gradient(to top,#020816 0%,rgba(2,8,22,0.55) 28%,transparent 55%)' }} />
+             style={{ background: 'linear-gradient(to top,#020816 0%,rgba(2,8,22,0.5) 25%,transparent 50%)' }} />
         <div className="absolute inset-0"
-             style={{ background: 'linear-gradient(to bottom,rgba(2,8,22,0.85) 0%,transparent 18%)' }} />
+             style={{ background: 'linear-gradient(to bottom,rgba(2,8,22,0.8) 0%,transparent 16%)' }} />
         {/* Deep blue color grade */}
-        <div className="absolute inset-0" style={{ background: 'rgba(1,4,16,0.22)' }} />
+        <div className="absolute inset-0" style={{ background: 'rgba(1,4,16,0.2)' }} />
       </div>
 
       {/* Gold particle dots */}
@@ -266,7 +279,7 @@ function Hero() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 animate-[fade-up_1s_ease_0.8s_both]">
-            <button className="btn-gold px-10 py-4 text-sm flex items-center gap-3 group">
+            <button className="btn-gold px-10 py-4 text-sm flex items-center gap-3 group" onClick={onOpenForm}>
               <span>Подобрать автомобиль</span>
               <Icon name="ArrowRight" size={16} className="group-hover:translate-x-1 transition-transform" />
             </button>
@@ -298,29 +311,17 @@ function Hero() {
         <div className="w-px h-10" style={{ background: 'linear-gradient(to bottom,rgba(212,168,67,0.3),transparent)' }} />
       </div>
 
-      {/* Плавный переход вниз */}
-      <div className="absolute bottom-0 left-0 right-0 z-10" style={{ height: 140, background: 'linear-gradient(to top,#020816 0%,rgba(2,8,22,0.9) 50%,transparent 100%)' }} />
+      {/* Плавный переход вниз к следующей секции */}
+      <div className="absolute bottom-0 left-0 right-0 z-10" style={{ height: 160, background: 'linear-gradient(to top,#020816 0%,rgba(2,8,22,0.85) 45%,transparent 100%)' }} />
     </section>
   );
 }
 
-/* ─── Section wrapper with unified bg blending ─────── */
-function Section({ id, children, bgTop = '#020816', bgBottom = '#020816', hasDividerTop = false, hasDividerBottom = false }:
-  { id?: string; children: React.ReactNode; bgTop?: string; bgBottom?: string; hasDividerTop?: boolean; hasDividerBottom?: boolean }) {
+/* ─── Section wrapper — фон общий (.page-bg в Root), секции полностью прозрачны для бесшовных переходов ─── */
+function Section({ id, children }: { id?: string; children: React.ReactNode }) {
   return (
-    <section id={id} className="relative overflow-hidden"
-             style={{ background: `linear-gradient(180deg,${bgTop} 0%,${bgBottom} 100%)` }}>
-      {/* Top seamless blend */}
-      <div className="absolute top-0 left-0 right-0 z-10 pointer-events-none"
-           style={{ height: 80, background: `linear-gradient(to bottom,${bgTop} 0%,transparent 100%)` }} />
-
-      <div className="relative z-20">
-        {children}
-      </div>
-
-      {/* Bottom seamless blend */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 pointer-events-none"
-           style={{ height: 100, background: `linear-gradient(to top,${bgBottom} 0%,transparent 100%)` }} />
+    <section id={id} className="relative overflow-hidden">
+      {children}
     </section>
   );
 }
@@ -328,7 +329,7 @@ function Section({ id, children, bgTop = '#020816', bgBottom = '#020816', hasDiv
 /* ─── Services ──────────────────────────────────────── */
 function Services() {
   return (
-    <Section id="услуги" bgTop="#020816" bgBottom="#030b1c">
+    <Section id="услуги">
       {/* Radial ambient */}
       <div className="absolute inset-0 pointer-events-none"
            style={{ background: 'radial-gradient(ellipse 70% 50% at 50% 0%,rgba(212,168,67,0.04),transparent)' }} />
@@ -376,8 +377,7 @@ function Process() {
   ];
 
   return (
-    <Section bgTop="#030b1c" bgBottom="#020e22">
-      <div className="absolute inset-0 grid-pattern" style={{ opacity: 0.4 }} />
+    <Section>
       <div className="absolute inset-0 pointer-events-none"
            style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 100%,rgba(212,168,67,0.03),transparent)' }} />
 
@@ -427,7 +427,7 @@ function Trust() {
   }, []);
 
   return (
-    <Section id="доверие" bgTop="#020e22" bgBottom="#020816">
+    <Section id="доверие">
       <div className="absolute inset-0 pointer-events-none"
            style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 50%,rgba(212,168,67,0.025),transparent)' }} />
 
@@ -543,8 +543,7 @@ function FaqItem({ question, answer, index }: { question: string; answer: string
 
 function FAQ() {
   return (
-    <Section id="faq" bgTop="#020816" bgBottom="#030b1c">
-      <div className="absolute inset-0 grid-pattern" style={{ opacity: 0.35 }} />
+    <Section id="faq">
 
       <div className="py-28 max-w-4xl mx-auto px-6">
         <div className="text-center mb-14">
@@ -569,10 +568,9 @@ function FAQ() {
 }
 
 /* ─── CTA ───────────────────────────────────────────── */
-function CTA() {
+function CTA({ onOpenForm }: { onOpenForm: () => void }) {
   return (
-    <Section id="контакты" bgTop="#030b1c" bgBottom="#020816">
-      <div className="absolute inset-0 grid-pattern" style={{ opacity: 0.35 }} />
+    <Section id="контакты">
       <div className="absolute inset-0 pointer-events-none"
            style={{ background: 'radial-gradient(ellipse 65% 65% at 50% 50%,rgba(212,168,67,0.05),transparent)' }} />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] rounded-full pointer-events-none"
@@ -604,6 +602,7 @@ function CTA() {
           </button>
           <button className="font-ibm text-xs tracking-[0.18em] uppercase px-10 py-4 transition-all duration-300 flex items-center justify-center gap-2"
                   style={{ border: '1px solid rgba(212,168,67,0.3)', color: '#e8c96a' }}
+                  onClick={onOpenForm}
                   onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor='rgba(212,168,67,0.62)'; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor='rgba(212,168,67,0.3)'; }}>
             <Icon name="Phone" size={14} />
@@ -658,19 +657,142 @@ function Footer() {
   );
 }
 
+/* ─── Lead Form Dialog ─────────────────────────────── */
+function LeadFormDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
+  const { toast } = useToast();
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [budget, setBudget] = useState('');
+  const [consent, setConsent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  const resetForm = () => {
+    setName('');
+    setPhone('');
+    setBudget('');
+    setConsent(false);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (name.trim().length < 2) {
+      toast({ title: 'Укажите ваше имя', variant: 'destructive' });
+      return;
+    }
+    if (phone.replace(/\D/g, '').length < 10) {
+      toast({ title: 'Укажите корректный номер телефона', variant: 'destructive' });
+      return;
+    }
+    if (!consent) {
+      toast({ title: 'Необходимо согласие на обработку персональных данных', variant: 'destructive' });
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const res = await fetch(SUBMIT_LEAD_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone, budget, consent }),
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        toast({ title: 'Заявка отправлена!', description: 'Наш менеджер свяжется с вами в течение 15 минут.' });
+        resetForm();
+        onOpenChange(false);
+      } else {
+        toast({ title: 'Ошибка отправки', description: data.error || 'Попробуйте ещё раз', variant: 'destructive' });
+      }
+    } catch {
+      toast({ title: 'Не удалось отправить заявку', description: 'Проверьте соединение и попробуйте снова', variant: 'destructive' });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent
+        className="border-0 p-0 overflow-hidden max-w-md"
+        style={{ background: '#050d1f' }}
+      >
+        <div className="p-8" style={{ borderTop: '3px solid #d4a843' }}>
+          <DialogHeader className="mb-6">
+            <DialogTitle style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.5rem', color: 'rgba(255,255,255,0.95)' }}>
+              Подобрать <span className="gold-text">автомобиль</span>
+            </DialogTitle>
+            <DialogDescription className="font-ibm text-sm" style={{ color: 'rgba(245,223,160,0.45)' }}>
+              Оставьте контакты — менеджер свяжется с вами в течение 15 минут
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="lead-name" className="font-ibm text-xs tracking-wide uppercase" style={{ color: 'rgba(245,223,160,0.55)' }}>Имя</Label>
+              <Input id="lead-name" value={name} onChange={(e) => setName(e.target.value)}
+                     placeholder="Иван Иванов"
+                     className="bg-transparent font-ibm"
+                     style={{ borderColor: 'rgba(212,168,67,0.25)', color: 'rgba(255,255,255,0.9)' }} />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="lead-phone" className="font-ibm text-xs tracking-wide uppercase" style={{ color: 'rgba(245,223,160,0.55)' }}>Телефон</Label>
+              <Input id="lead-phone" value={phone} onChange={(e) => setPhone(e.target.value)} type="tel"
+                     placeholder="+7 (___) ___-__-__"
+                     className="bg-transparent font-ibm"
+                     style={{ borderColor: 'rgba(212,168,67,0.25)', color: 'rgba(255,255,255,0.9)' }} />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="lead-budget" className="font-ibm text-xs tracking-wide uppercase" style={{ color: 'rgba(245,223,160,0.55)' }}>Примерный бюджет</Label>
+              <Input id="lead-budget" value={budget} onChange={(e) => setBudget(e.target.value)}
+                     placeholder="например, 3–4 млн ₽"
+                     className="bg-transparent font-ibm"
+                     style={{ borderColor: 'rgba(212,168,67,0.25)', color: 'rgba(255,255,255,0.9)' }} />
+            </div>
+
+            <div className="flex items-start gap-3 mt-1">
+              <Checkbox id="lead-consent" checked={consent} onCheckedChange={(v) => setConsent(v === true)}
+                        className="mt-0.5"
+                        style={{ borderColor: 'rgba(212,168,67,0.4)' }} />
+              <Label htmlFor="lead-consent" className="font-ibm text-xs leading-relaxed cursor-pointer" style={{ color: 'rgba(245,223,160,0.5)' }}>
+                Я согласен на обработку персональных данных в соответствии с политикой конфиденциальности
+              </Label>
+            </div>
+
+            <button type="submit" disabled={submitting} className="btn-gold px-8 py-4 text-sm mt-2 disabled:opacity-60">
+              {submitting ? 'Отправка...' : 'Отправить заявку'}
+            </button>
+          </form>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 /* ─── Root ──────────────────────────────────────────── */
 export default function Index() {
   useReveal();
+  const [formOpen, setFormOpen] = useState(false);
+
   return (
-    <div className="min-h-screen" style={{ background: '#020816' }}>
-      <NavBar />
-      <Hero />
+    <div className="min-h-screen relative">
+      <div className="page-bg" />
+      <div className="page-noise" />
+      <div className="grid-pattern pointer-events-none" style={{ position: 'absolute', inset: 0, opacity: 0.3, zIndex: -1 }} />
+
+      <NavBar onOpenForm={() => setFormOpen(true)} />
+      <Hero onOpenForm={() => setFormOpen(true)} />
       <Services />
       <Process />
       <Trust />
       <FAQ />
-      <CTA />
+      <CTA onOpenForm={() => setFormOpen(true)} />
       <Footer />
+
+      <LeadFormDialog open={formOpen} onOpenChange={setFormOpen} />
     </div>
   );
 }

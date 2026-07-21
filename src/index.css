@@ -301,3 +301,28 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(212, 168, 67, 0.6);
 }
+
+/* ── Global page background — единый градиент на весь сайт устраняет резкие стыки между секциями ──
+   position: absolute (не fixed!) — растягивается на всю высоту скроллируемого контента родителя */
+.page-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(ellipse 60% 25% at 20% 10%, rgba(212,168,67,0.05), transparent 60%),
+    radial-gradient(ellipse 50% 22% at 85% 30%, rgba(212,168,67,0.04), transparent 60%),
+    radial-gradient(ellipse 55% 25% at 30% 55%, rgba(212,168,67,0.045), transparent 60%),
+    radial-gradient(ellipse 50% 22% at 75% 80%, rgba(212,168,67,0.04), transparent 60%),
+    linear-gradient(180deg, #020816 0%, #030b1c 18%, #020e22 34%, #020e22 50%, #030b1c 66%, #020816 82%, #030b1c 92%, #020816 100%);
+}
+
+/* Едва заметный шум поверх фона — устраняет цветовой banding на градиентах */
+.page-noise {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.025;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}

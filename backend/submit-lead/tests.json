@@ -1,0 +1,26 @@
+{
+  "tests": [
+    {
+      "name": "OPTIONS preflight",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Missing consent returns error",
+      "method": "POST",
+      "path": "/",
+      "body": {"name": "Иван Иванов", "phone": "+79991234567", "budget": "3-4 млн", "consent": false},
+      "expectedStatus": 400
+    },
+    {
+      "name": "Valid lead submission",
+      "method": "POST",
+      "path": "/",
+      "body": {"name": "Иван Иванов", "phone": "+79991234567", "budget": "3-4 млн", "consent": true},
+      "expectedStatus": 200,
+      "bodyMatcher": "partial",
+      "expectedBody": {"success": true}
+    }
+  ]
+}
